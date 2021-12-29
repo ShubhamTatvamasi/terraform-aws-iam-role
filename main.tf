@@ -45,6 +45,28 @@ resource "aws_iam_policy" "cert_manager_route53_iam_policy" {
 EOF
 }
 
+data "aws_iam_policy_document" "cert_manager_route53_iam_policy_document" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "cert_manager_route53_iam_role" {
+  count = var.setup_cert_manager ? 1 : 0
+  name = "cert_manager_route53_iam_role-${resource.random_id.cert_manager_route53_random_id.0.id}"
+  assume_role_policy = data.aws_iam_policy_document.cert_manager_route53_iam_policy_document.json
+  managed_policy_arns = [aws_iam_policy.cert_manager_route53_iam_policy.0.arn]
+}
+
 output "cert_manager_route53_iam_policy" {
-  value = aws_iam_policy.cert_manager_route53_iam_policy.0.id
+  value = aws_iam_policy.cert_manager_route53_iam_policy.0.arn
+}
+
+output "cert_manager_route53_iam_role" {
+  value = aws_iam_role.cert_manager_route53_iam_role.0.arn
 }
