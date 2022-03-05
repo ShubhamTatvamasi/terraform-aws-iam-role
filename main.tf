@@ -9,14 +9,14 @@ variable "setup_cert_manager" {
 }
 
 resource "random_id" "cert_manager_route53_random_id" {
-  count = var.setup_cert_manager ? 1 : 0
+  count       = var.setup_cert_manager ? 1 : 0
   byte_length = 8
 }
 
 resource "aws_iam_policy" "cert_manager_route53_iam_policy" {
   count = var.setup_cert_manager ? 1 : 0
-  name = "cert_manager_route53_iam_policy-${resource.random_id.cert_manager_route53_random_id.0.id}"
-  path        = "/"
+  name  = "cert_manager_route53_iam_policy-${resource.random_id.cert_manager_route53_random_id.0.id}"
+  path  = "/"
 
   policy = <<EOF
 {
@@ -57,9 +57,9 @@ data "aws_iam_policy_document" "cert_manager_route53_iam_policy_document" {
 }
 
 resource "aws_iam_role" "cert_manager_route53_iam_role" {
-  count = var.setup_cert_manager ? 1 : 0
-  name = "cert_manager_route53_iam_role-${resource.random_id.cert_manager_route53_random_id.0.id}"
-  assume_role_policy = data.aws_iam_policy_document.cert_manager_route53_iam_policy_document.json
+  count               = var.setup_cert_manager ? 1 : 0
+  name                = "cert_manager_route53_iam_role-${resource.random_id.cert_manager_route53_random_id.0.id}"
+  assume_role_policy  = data.aws_iam_policy_document.cert_manager_route53_iam_policy_document.json
   managed_policy_arns = [aws_iam_policy.cert_manager_route53_iam_policy.0.arn]
 }
 
