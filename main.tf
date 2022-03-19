@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-2"
-}
-
 variable "setup_cert_manager" {
   description = "Flag creating cert-manager"
   type        = bool
