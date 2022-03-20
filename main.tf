@@ -5,7 +5,7 @@ variable "setup_cert_manager" {
 }
 
 resource "random_id" "cert_manager_route53_random_id" {
-  count       = var.setup_cert_manager ? 1 : 0
+  count      = var.setup_cert_manager ? 1 : 0
   byte_length = 8
 }
 
