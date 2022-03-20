@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "cert_manager_route53_iam_policy_document" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "Service"
+      type       = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
   }
