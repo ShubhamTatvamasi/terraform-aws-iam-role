@@ -14,4 +14,3 @@ Destroy the terraform module with the following command:
 ```bash
 terraform destroy -auto-approve
 ```
-
