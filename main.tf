@@ -1,9 +1,3 @@
-variable "setup_cert_manager" {
-  description = "Flag creating cert-manager"
-  type        = bool
-  default     = true
-}
-
 resource "random_id" "cert_manager_route53_random_id" {
   count       = var.setup_cert_manager ? 1 : 0
   byte_length = 8
@@ -57,12 +51,4 @@ resource "aws_iam_role" "cert_manager_route53_iam_role" {
   name                = "cert_manager_route53_iam_role-${resource.random_id.cert_manager_route53_random_id.0.id}"
   assume_role_policy  = data.aws_iam_policy_document.cert_manager_route53_iam_policy_document.json
   managed_policy_arns = [aws_iam_policy.cert_manager_route53_iam_policy.0.arn]
-}
-
-output "cert_manager_route53_iam_policy" {
-  value = var.setup_cert_manager ? aws_iam_policy.cert_manager_route53_iam_policy.0.arn : null
-}
-
-output "cert_manager_route53_iam_role" {
-  value = var.setup_cert_manager ? aws_iam_role.cert_manager_route53_iam_role.0.arn : null
 }
