@@ -5,6 +5,8 @@ on: [push]
 jobs:
   terraform-localstack:
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_setup_cert_manager: false
     steps:
 
     - name: Checkout
